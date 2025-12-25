@@ -1,0 +1,203 @@
+DNS Server Configuration in Windows Server
+Definition
+
+DNS (Domain Name System) converts:
+
+Domain names → IP addresses
+Example:
+
+company.local → 192.168.1.10
+
+
+DNS is required for Active Directory, domain login, and network services.
+
+Requirement
+
+Windows Server installed
+
+Static IP configured on server
+
+Active Directory Domain Services installed
+
+Logged in as Domain Administrator
+
+Example Used
+Domain Name: company.local
+DNS Server IP: 192.168.1.10
+Server Name: DC01
+
+PART 1: Install DNS Server Role
+Step 1: Open Server Manager
+
+Login to Windows Server
+
+Open Server Manager
+
+Step 2: Add Roles and Features
+
+Click Manage
+
+Select Add Roles and Features
+
+Click Next
+
+Select Role-based or feature-based installation
+
+Click Next
+
+Select Local Server
+
+Click Next
+
+Step 3: Select DNS Server
+
+Select DNS Server
+
+Click Add Features
+
+Click Next
+
+Click Install
+
+PART 2: Open DNS Manager
+Step 1: Open DNS Console
+
+Open Server Manager
+
+Click Tools
+
+Select DNS
+
+PART 3: Verify Forward Lookup Zone
+
+When AD is installed, DNS zone is created automatically
+
+Step 1: Check Forward Lookup Zone
+
+Expand DNS
+
+Expand Server Name
+
+Expand Forward Lookup Zones
+
+Confirm zone exists:
+
+company.local
+
+PART 4: Create New Forward Lookup Zone (If Not Exists)
+Step 1: Create Zone
+
+Right-click Forward Lookup Zones
+
+Click New Zone
+
+Click Next
+
+Select Primary Zone
+
+Check Store the zone in Active Directory
+
+Click Next
+
+Step 2: Zone Name
+
+Enter:
+
+company.local
+
+
+Click Next
+
+Step 3: Dynamic Update
+
+Select:
+
+Allow only secure dynamic updates
+
+
+Click Next
+
+Click Finish
+
+PART 5: Create Host (A) Record
+Step 1: Create A Record
+
+Open company.local
+
+Right-click → New Host (A or AAAA)
+
+Step 2: Enter Details
+Name: server1
+IP Address: 192.168.1.10
+
+
+Check Create associated PTR record
+
+Click Add Host
+
+Click OK
+
+PART 6: Reverse Lookup Zone
+Step 1: Create Reverse Lookup Zone
+
+Right-click Reverse Lookup Zones
+
+Click New Zone
+
+Click Next
+
+Select Primary Zone
+
+Click Next
+
+Select IPv4 Reverse Lookup Zone
+
+Click Next
+
+Step 2: Network ID
+Network ID: 192.168.1
+
+
+Click Next
+
+Allow secure dynamic updates
+
+Click Finish
+
+PART 7: Configure Client DNS Settings
+On Client Machine
+
+Open Network Adapter Settings
+
+Open IPv4 Properties
+
+Set Preferred DNS Server:
+
+192.168.1.10
+
+
+Click OK
+
+PART 8: Verify DNS Working
+Using Command Prompt
+ipconfig /all
+nslookup company.local
+ping company.local
+
+Verification
+
+Domain name resolves to IP
+
+Client can join domain
+
+Domain login works properly
+
+Common DNS Commands
+ipconfig /flushdns
+ipconfig /registerdns
+nslookup
+
+Conclusion
+
+DNS Server has been successfully installed and configured.
+DNS is now supporting Active Directory, DHCP, and domain login operations.
